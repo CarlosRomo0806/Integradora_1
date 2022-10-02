@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../../../credential.dart';
 import 'package:record/record.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
@@ -17,7 +16,8 @@ class SongsBloc extends Bloc<SongsEvent, SongsState> {
   SongsBloc() : super(SongsInitial()) {
     on<SongsEvent>((_findSong));
   }
-
+  get key => null;
+  
   void _findSong(SongsEvent event, Emitter emit) async {
     final tmpPath = await _obtainTempPath();
     final filePath = await doRecording(tmpPath, emit);
