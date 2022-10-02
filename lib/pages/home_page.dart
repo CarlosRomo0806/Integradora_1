@@ -184,7 +184,7 @@ class _HomePageState extends State<HomePage> {
                       backgroundColor: Colors.white,
                     ),
                     child: const Text(
-                      'Ver favoritos',
+                      'Tus canciones Favoritas',
                       style: TextStyle(color: Colors.black),
                     ))
               ],
