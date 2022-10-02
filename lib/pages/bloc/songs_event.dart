@@ -8,4 +8,4 @@ abstract class SongsEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class SongsRecordUpdateEvent extends SongsEvent {}
+class SongsUpdate extends SongsEvent {}

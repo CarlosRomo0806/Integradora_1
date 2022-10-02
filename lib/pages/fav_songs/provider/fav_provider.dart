@@ -5,12 +5,12 @@ class FavProvider with ChangeNotifier {
 
   List<dynamic> get getFavSong => _favoriteSongs;
 
-  void addFavoriteSong(dynamic song) {
+  void addSong(dynamic song) {
     _favoriteSongs.add(song);
     notifyListeners();
   }
 
-  void removeFavoriteSong(dynamic song) {
+  void removeSong(dynamic song) {
     _favoriteSongs.remove(song);
     notifyListeners();
   }

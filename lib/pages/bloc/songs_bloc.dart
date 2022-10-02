@@ -1,3 +1,4 @@
+// ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,19 +17,20 @@ class SongsBloc extends Bloc<SongsEvent, SongsState> {
   SongsBloc() : super(SongsInitial()) {
     on<SongsEvent>((_findSong));
   }
-  get key => null;
   
+  get key => null;
+
   void _findSong(SongsEvent event, Emitter emit) async {
-    final tmpPath = await _obtainTempPath();
-    final filePath = await doRecording(tmpPath, emit);
-    print("File path: $filePath");
-    File file = File(filePath!);
-    String fileString = await fileConvert(file);
-    var json = await _recieveResponse(fileString);
+    final tmpP = await _getTempPath();
+    final fileP = await recordAudio(tmpP, emit);
+    print("File path: $fileP");
+    File file = File(fileP!);
+    String stringFile = await Convertion(file);
+    var json = await _Response(stringFile);
     print("JSON: $json");
 
     if (json == null || json["result"] == null) {
-      emit(SongsError());
+      emit(SongsFailure());
     } else {
       try {
         final String song = json['result']['title'];
@@ -56,24 +58,24 @@ class SongsBloc extends Bloc<SongsEvent, SongsState> {
         );
       } catch (e) {
         print("Error: $e");
-        emit(SongsMissingValues());
+        emit(SongsVal());
       }
     }
   }
 
-  Future<String> _obtainTempPath() async {
-    Directory tempDir = await getTemporaryDirectory();
-    return tempDir.path;
+  Future<String> _getTempPath() async {
+    Directory tempDirect = await getTemporaryDirectory();
+    return tempDirect.path;
   }
 
-  Future<String> fileConvert(File file) async {
+  Future<String> Convertion(File file) async {
   List<int> fileBytes = await file.readAsBytes();
-  String base64String = base64Encode(fileBytes);
-  return base64String;
+  String base = base64Encode(fileBytes);
+  return base;
 }
 
-  Future _recieveResponse(String file) async {
-    emit(SongsFinished());
+  Future _Response(String file) async {
+    emit(SongsEnded());
     http.Response response = await http.post(
       Uri.parse('https://api.audd.io/'),
       headers: {'Content-Type': 'multipart/form-data'},
@@ -95,15 +97,15 @@ class SongsBloc extends Bloc<SongsEvent, SongsState> {
     }
   }
 
-  Future<String?> doRecording(String tmpPath, Emitter<dynamic> emit) async {
+  Future<String?> recordAudio(String tmpP, Emitter<dynamic> emit) async {
     final Record _record = Record();
     try {
       bool permission = await _record.hasPermission();
       print("Permission: $permission");
       if (permission) {
-        emit(SongsListening());
+        emit(SongsRecognition());
         await _record.start(
-          path: '${tmpPath}/test.m4a',
+          path: '${tmpP}/test.m4a',
           encoder: AudioEncoder.aacLc,
           bitRate: 128000,
           samplingRate: 44100,
@@ -111,7 +113,7 @@ class SongsBloc extends Bloc<SongsEvent, SongsState> {
         await Future.delayed(const Duration(seconds: 7));
         return await _record.stop();
       } else {
-        emit(SongsError());
+        emit(SongsFailure());
         print("Permission denied");
       }
     } catch (e) {

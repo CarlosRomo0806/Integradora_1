@@ -74,7 +74,7 @@ class _FinalDataState extends State<FinalData> {
           "Here you go",
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: const Color(0xff042442),
+        backgroundColor: Color.fromARGB(255, 9, 134, 129),
       ),
       body: Container(
         alignment: Alignment.center,
@@ -187,11 +187,11 @@ class _FinalDataState extends State<FinalData> {
             if (isNotFavorite) {
               _isFavorite = false;
               setState(() {});
-              context.read<FavProvider>().removeFavoriteSong(_song);
+              context.read<FavProvider>().removeSong(_song);
             } else {
               _isFavorite = true;
               setState(() {});
-              context.read<FavProvider>().addFavoriteSong(_song);
+              context.read<FavProvider>().addSong(_song);
             }
             Navigator.of(context).pop();
           },

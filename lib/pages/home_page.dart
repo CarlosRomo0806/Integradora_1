@@ -1,4 +1,4 @@
-// ignore_for_file: unused_field, prefer_typing_uninitialized_variables
+// ignore_for_file: unused_field, prefer_typing_uninitialized_variables, unused_import
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage> {
               _animation = false;
               _listenStatus = 'Reconoce la canción que estas escuchando';
               _iconColor = Colors.white;
-            } else if (state is SongsError) {
+            } else if (state is SongsFailure) {
               _animation = false;
               _listenStatus = 'Reconoce la canción que estas escuchando';
               _iconColor = Colors.white;
@@ -77,13 +77,13 @@ class _HomePageState extends State<HomePage> {
                     backgroundColor: Color.fromARGB(255, 131, 40, 33),
                   ),
                 );
-            } else if (state is SongsFinished) {
+            } else if (state is SongsEnded) {
               _animation = true;
               _listenStatus = 'Buscando la rola...';
               _iconColor = Color.fromARGB(255, 0, 68, 255);
               // ignore: avoid_print
               print('$state');
-            } else if (state is SongsListening) {
+            } else if (state is SongsRecognition) {
               // ignore: avoid_print
               print('$state');
               _animation = true;
@@ -92,7 +92,7 @@ class _HomePageState extends State<HomePage> {
             } else if (state is SongsInitial) {
               // ignore: avoid_print
               print('$state');
-            } else if (state is SongsMissingValues) {
+            } else if (state is SongsVal) {
               // ignore: avoid_print
               print("$state");
               _animation = false;
@@ -134,7 +134,7 @@ class _HomePageState extends State<HomePage> {
                     onTap: () {
                       pressed = true;
                       BlocProvider.of<SongsBloc>(context)
-                          .add(SongsRecordUpdateEvent());
+                          .add(SongsUpdate());
                     },
                     child: Material(
                       shape: const CircleBorder(),

@@ -101,7 +101,7 @@ class _FavItemsState extends State<FavItems> {
         ),
         TextButton(
           onPressed: () {
-            context.read<FavProvider>().removeFavoriteSong(widget.favoriteItem);
+            context.read<FavProvider>().removeSong(widget.favoriteItem);
             Navigator.of(context).pop();
           },
           child: const Text("Eliminar"),

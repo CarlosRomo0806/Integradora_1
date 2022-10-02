@@ -10,11 +10,11 @@ abstract class SongsState extends Equatable {
 
 class SongsInitial extends SongsState {}
 
-class SongsListening extends SongsInitial {}
+class SongsVal extends SongsInitial {}
 
-class SongsFinished extends SongsInitial {}
+class SongsRecognition extends SongsInitial {}
 
-class SongsMissingValues extends SongsInitial {}
+class SongsEnded extends SongsInitial {}
 
 class SongsSuccess extends SongsInitial {
   final String song, artist, album, date, apple, spotify, image, link;
@@ -31,4 +31,4 @@ class SongsSuccess extends SongsInitial {
   });
 }
 
-class SongsError extends SongsInitial {}
+class SongsFailure extends SongsInitial {}
